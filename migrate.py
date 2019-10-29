@@ -13,7 +13,14 @@ response = client.assume_role(
     TokenCode=token
 )
 
-s3 = boto3.resource('s3')
+credentials = response['Credentials']
+
+s3 = boto3.resource(
+    's3',
+    aws_access_key_id=credentials['AccessKeyId'],
+    aws_secret_access_key=credentials['SecretAccessKey'],
+    aws_session_token=credentials['SessionToken'],
+)
 for bucket in s3.buckets.all():
     print(bucket.name)
 
