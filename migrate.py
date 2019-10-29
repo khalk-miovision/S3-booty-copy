@@ -28,3 +28,14 @@ for bucket in s3.buckets.all():
 #     logos = csv.reader(csv_file, delimiter=',')
 #     for path in logos:
 #         print(path[0])
+
+sourceBucketName = ''
+newPrefix = '/public/attachments/'
+fileKey = ''
+
+s3 = boto3.resource('s3')
+copy_source = {
+    'Bucket': sourceBucketName,
+    'Key': fileKey
+}
+s3.meta.client.copy(copy_source, sourceBucketName, newPrefix + fileKey)
